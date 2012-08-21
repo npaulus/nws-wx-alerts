@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+body {
+	background-color: white;
+}
+
+#weatherData {
+	width:800px
+}
+
+h1
+{
+	font-size:22px;
+}
+
+h3 {
+	
+	font-size:18px;
+}
+
+p
+{
+	font-size:16px;
+	font-family: monospace;
+}
+
