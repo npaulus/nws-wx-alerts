@@ -23,15 +23,14 @@ public class WeatherData extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public WeatherData() {
-        super();
-        // TODO Auto-generated constructor stub
+        super();        
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doPost(request, response);
 	}
 
 	/**
@@ -47,18 +46,8 @@ public class WeatherData extends HttpServlet {
 		
 		String result = Weather.getData(lat, lon);
 		URL urlFeed = new URL("http://alerts.weather.gov/cap/wwaatmget.php?x="+result+"&y=1");
-		//URL urlFeed = new URL("http://alerts.weather.gov/cap/pa.php?x=0");
-		try {
-			result = Weather.getAtomFeed(urlFeed); 
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+	
+		result = Weather.getAtomFeed(urlFeed); 
 		
 		PrintWriter out = response.getWriter();
 		out.println(result);

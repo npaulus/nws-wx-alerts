@@ -3,6 +3,7 @@ package paulus.nate.nws.weather;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
@@ -26,36 +27,46 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class Weather {
 
+	
 	/**
-	 * @param args
-	 *  
+	 * @param lat - latitude used to get county
+	 * @param lon - longitude used to get county
+	 * @return String that represents the National Weather Service county code
 	 */
 	public static String getData(String lat, String lon) {
 		Client c = Client.create();
 		c.setFollowRedirects(true);
 		WebResource r = c.resource("http://data.fcc.gov/api/block/find");
-		MultivaluedMap queryParams = new MultivaluedMapImpl();
+		MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 		   queryParams.add("latitude", lat);
 		   queryParams.add("longitude", lon);		   	   
 		   r.accept(MediaType.APPLICATION_XML);
 		Response fccResponse = r.queryParams(queryParams).get(Response.class);
 		
 		String state = fccResponse.getState().getCode();
-		String county = fccResponse.getCounty().getName();
 		String fips = state +"C" + fccResponse.getCounty().getFIPS().toString().substring(2);
 		
 		return fips;
 
 	}
 	
-	public static String getAtomFeed(URL url) throws IllegalArgumentException, IOException, URISyntaxException{
+	/**
+	 * @param url - NWS URL that is used to retrieve alert information for specific county
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	public static String getAtomFeed(URL url) {
 			
 		String text = "";
-		
-		InputStream in = url.openStream();
-		BOMInputStream bomIn = new BOMInputStream(in);
-		if(bomIn.hasBOM()){
-			System.out.println("BOM exists");	
+		InputStream in = null;
+		BOMInputStream bomIn = null;
+		try{		
+			in = url.openStream();
+			bomIn = new BOMInputStream(in);
+		} catch (IOException e){
+			return "<p>Unable to get the weather data.  Please refresh the page</p>";
 		}
 		
 		Feed feed = null;
@@ -76,10 +87,16 @@ public class Weather {
 				text += "<p>No active watches, warnings or advisories.</p>";
 			}
 			else {
-				Alert alert = null;				
-				URL capURL = new URL(e.getId());
-				System.out.println(e.getLink().toString());
-				InputStream capIn = capURL.openStream();
+				Alert alert = null;
+				URL capURL = null;
+				InputStream capIn = null;
+				
+				try{
+					capURL = new URL(e.getId());
+					capIn = capURL.openStream();
+				} catch (IOException e1){
+					text += "<h3>There is an alert, but an error occurred.  Please refresh the page to try again.</h3>";
+				}
 				
 				try {
 					JAXBContext capAlert = JAXBContext.newInstance(Alert.class);
