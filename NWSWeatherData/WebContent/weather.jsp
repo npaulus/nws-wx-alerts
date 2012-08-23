@@ -9,27 +9,33 @@
 <script>
 $(document).ready(function(){
 	
-	function handler(location) {
-
-		var longitude = location.coords.longitude;
-		var latitude = location.coords.latitude;
-		
-		$.post("/NWSWeatherData/WeatherData",{
-			lon : longitude,
-			lat : latitude } ,
-			function(data) {
-				
-				$("#weatherData").html(data);				
-				$("#weatherData").show();
-			}, "html");		
-
+	if(navigator && navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(success, error, {timeout:50000});
 	}
+});
 
-	navigator.geolocation.getCurrentPosition(handler);
+function success(location) {
 	
+	var longitude = location.coords.longitude;
+	var latitude = location.coords.latitude;
+
 	
+	$.post("/NWSWeatherData/WeatherData",{
+		lon : longitude,
+		lat : latitude } ,
+		function(data) {
+			
+			$("#weatherData").html(data);				
+			$("#weatherData").show();
+		}, "html");	
 	
-	});
+}
+
+function error(err){
+	
+	$("#weatherData").html("<h1>Oops!</h1><p>It looks like your browser doesn't support geolocation. For best results please use" +
+	" a mobile phone and share your location when prompted.</p>");
+}
 
 </script>
 <link media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" rel="stylesheet"   />
@@ -37,8 +43,8 @@ $(document).ready(function(){
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
 </head>
 <body>
-<div id="weatherData" style="display: hidden">
-
+<div id="weatherData" style="display: block">
+<p>Retrieving weather alert data for your location....</p>
 </div>
 </body>
 </html>

@@ -29,6 +29,7 @@ public class Weather {
 
 	
 	/**
+	 * Returns the FIPS code for the county that GPS coordinates reside in formatted for the NWS system.
 	 * @param lat - latitude used to get county
 	 * @param lon - longitude used to get county
 	 * @return String that represents the National Weather Service county code
@@ -51,11 +52,9 @@ public class Weather {
 	}
 	
 	/**
+	 * Retrieves the alerts from the NWS at the URL provided
 	 * @param url - NWS URL that is used to retrieve alert information for specific county
 	 * @return
-	 * @throws IllegalArgumentException
-	 * @throws IOException
-	 * @throws URISyntaxException
 	 */
 	public static String getAtomFeed(URL url) {
 			
@@ -91,20 +90,14 @@ public class Weather {
 				URL capURL = null;
 				InputStream capIn = null;
 				
-				try{
+				try {
 					capURL = new URL(e.getId());
 					capIn = capURL.openStream();
-				} catch (IOException e1){
-					text += "<h3>There is an alert, but an error occurred.  Please refresh the page to try again.</h3>";
-				}
-				
-				try {
 					JAXBContext capAlert = JAXBContext.newInstance(Alert.class);
 	        		Unmarshaller capAlertData = capAlert.createUnmarshaller();
 					alert = (Alert) capAlertData.unmarshal(capIn);
-				} catch (JAXBException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (JAXBException | IOException e1) {
+					return "<p>There appears to be an alert, but the data wasn't all available.  Please refresh the page to try again.</p>";
 				}        		
 				
         		List<Alert.Info> details = alert.getInfo();
