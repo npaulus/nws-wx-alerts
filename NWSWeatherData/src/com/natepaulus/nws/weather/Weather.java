@@ -3,10 +3,9 @@ package com.natepaulus.nws.weather;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
+
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -38,7 +37,7 @@ public class Weather {
 		Client c = Client.create();
 		c.setFollowRedirects(true);
 		WebResource r = c.resource("http://data.fcc.gov/api/block/find");
-		MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
+		MultivaluedMap queryParams = new MultivaluedMapImpl();
 		   queryParams.add("latitude", lat);
 		   queryParams.add("longitude", lon);		   	   
 		   r.accept(MediaType.APPLICATION_XML);
