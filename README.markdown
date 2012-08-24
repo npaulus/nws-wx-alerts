@@ -1,7 +1,7 @@
 NWS Weather Alerts
 ==================
 
-This is a simple java web application that will check for weather alerts by the US National Weather Service based on a user's location.  The goal is to provide a way to easily pull weather alert information while traveling using a mobile device such as an iPhone.  Using the GeoLocation API, the user's GPS coordinates are used to determine the appropriate URL to retrieve the weather alerts for the specific location. Additionally, the site uses AJAX to get the weather data by sending the user's location once it has been determined. So the user just needs to access the URL and the website takes care of the rest. 
+This is a simple java web application that will check for weather alerts by the US National Weather Service based on a user's location.  The goal is to provide a way to easily pull weather alert information while traveling using a mobile device such as an iPhone.  Using the GeoLocation API, the user's GPS coordinates are used to determine the appropriate URL to retrieve weather alerts for the specific location. Additionally, the site uses AJAX to get the weather data by sending the user's location once it has been determined. So the user just needs to access the URL and the website takes care of the rest. 
 
 I started this project to learn a little about using java for RESTful web services. Also, I wanted something that wasn't tied to a specific app for determining if I am in an area with a severe weather alert. If anyone has any enhancement ideas or sees any bugs please let me know!
 
