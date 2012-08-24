@@ -15,6 +15,7 @@ This project is designed to run on Apache Tomcat 7.  It uses the following:
 * Apache Tomcat 7
 * Java 7
 * [Jersey 1.13](http://jersey.java.net/) 
+* [JAX-RS 1.1](http://jax-rs-spec.java.net/)
 * [JAXB](http://jaxb.java.net/)
 * [Apache Commons IO 2.4](https://commons.apache.org/io/)
 * jQuery - This is included in the WebContent folder
