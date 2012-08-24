@@ -18,9 +18,14 @@ This project is designed to run on Apache Tomcat 7.  It uses the following:
 * Apache Commons IO 2.4
 * jQuery
 
-These java libraries are included in the Webcontent/WEB-INF/lib folder.  It should be as easy as downloading the project into Eclipse, export as a WAR, and deploy it to Tomcat.
+The java libraries are included in the WebContent/WEB-INF/lib folder.  It should be as easy as downloading the project into Eclipse, export as a WAR, and deploy it to Tomcat.
+
+How it works
+------------
+
+The general idea is when a user visits the page, some JavaScript tries to get the users location and then sends it to the servlet.  The servlet sends the GPS coordinates to the FCC's [web service](http://www.fcc.gov/developers/census-block-conversions-api) for determining a county in the United States.  The FIPS code for the county is used from the FCC response to generate the appropriately formatted code for the NWS weather alert feeds.  Then the weather alert feed is retrieved to check for any alerts.  If there are alerts, the details are returned to the user on the webpage.  
 
 Roadmap
 -------
 
-The next thing I want to do is set it up to build with maven.
+* Add zip code box to search for alerts based on zip code.
