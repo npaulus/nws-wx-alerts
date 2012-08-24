@@ -6,13 +6,12 @@
 //
 
 
-package paulus.nate.nws.weather.atom;
+package com.natepaulus.nws.weather.atom;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,7 +24,9 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="href" use="required" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *       &lt;sequence>
+ *         &lt;element ref="{http://www.w3.org/2005/Atom}name"/>
+ *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -34,36 +35,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "link")
-public class Link {
+@XmlType(name = "", propOrder = {
+    "name"
+})
+@XmlRootElement(name = "author")
+public class Author {
 
-    @XmlAttribute(required = true)
-    @XmlSchemaType(name = "anyURI")
-    protected String href;
+    @XmlElement(required = true)
+    protected String name;
 
     /**
-     * Gets the value of the href property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getHref() {
-        return href;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the href property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setHref(String value) {
-        this.href = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }

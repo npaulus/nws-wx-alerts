@@ -6,7 +6,7 @@
 //
 
 
-package paulus.nate.nws.weather.fcc;
+package com.natepaulus.nws.weather.fcc;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;

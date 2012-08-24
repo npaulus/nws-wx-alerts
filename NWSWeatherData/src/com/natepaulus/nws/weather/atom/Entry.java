@@ -6,7 +6,7 @@
 //
 
 
-package paulus.nate.nws.weather.atom;
+package com.natepaulus.nws.weather.atom;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

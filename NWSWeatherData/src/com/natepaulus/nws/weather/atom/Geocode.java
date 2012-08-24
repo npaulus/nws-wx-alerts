@@ -6,7 +6,7 @@
 //
 
 
-package paulus.nate.nws.weather.atom;
+package com.natepaulus.nws.weather.atom;
 
 import java.util.ArrayList;
 import java.util.List;

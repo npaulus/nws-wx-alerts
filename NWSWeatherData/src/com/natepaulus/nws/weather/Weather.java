@@ -1,4 +1,4 @@
-package paulus.nate.nws.weather;
+package com.natepaulus.nws.weather;
 
 
 import java.io.IOException;
@@ -16,11 +16,11 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.input.BOMInputStream;
 
-import paulus.nate.nws.weather.atom.Entry;
-import paulus.nate.nws.weather.atom.Feed;
-import paulus.nate.nws.weather.cap.Alert;
-import paulus.nate.nws.weather.fcc.Response;
 
+import com.natepaulus.nws.weather.atom.Entry;
+import com.natepaulus.nws.weather.atom.Feed;
+import com.natepaulus.nws.weather.cap.Alert;
+import com.natepaulus.nws.weather.fcc.Response;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;

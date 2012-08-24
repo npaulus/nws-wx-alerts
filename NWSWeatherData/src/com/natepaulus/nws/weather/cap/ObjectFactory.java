@@ -6,7 +6,7 @@
 //
 
 
-package paulus.nate.nws.weather.cap;
+package com.natepaulus.nws.weather.cap;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
@@ -17,7 +17,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the paulus.nate.nws.weather.cap package. 
+ * generated in the com.natepaulus.nws.weather.cap package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -35,7 +35,7 @@ public class ObjectFactory {
     private final static QName _ValueName_QNAME = new QName("urn:oasis:names:tc:emergency:cap:1.1", "valueName");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: paulus.nate.nws.weather.cap
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.natepaulus.nws.weather.cap
      * 
      */
     public ObjectFactory() {

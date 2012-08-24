@@ -6,7 +6,7 @@
 //
 
 
-package paulus.nate.nws.weather.cap;
+package com.natepaulus.nws.weather.cap;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

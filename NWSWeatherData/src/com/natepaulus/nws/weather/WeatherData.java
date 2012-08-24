@@ -1,4 +1,4 @@
-package paulus.nate.nws.weather;
+package com.natepaulus.nws.weather;
 
 import java.io.IOException;
 import java.io.PrintWriter;
