@@ -12,13 +12,14 @@ Usage
 
 This project is designed to run on Apache Tomcat 7.  It uses the following:
 
+* Apache Tomcat 7
 * Java 7
-* Jersey 1.13
-* JAXB 2.2.6
-* Apache Commons IO 2.4
-* jQuery
+* [Jersey 1.13](http://jersey.java.net/) 
+* [JAXB](http://jaxb.java.net/)
+* [Apache Commons IO 2.4](https://commons.apache.org/io/)
+* jQuery - This is included in the WebContent folder
 
-The java libraries are included in the WebContent/WEB-INF/lib folder.  It should be as easy as downloading the project into Eclipse, export as a WAR, and deploy it to Tomcat.
+Once you have these libraries, it should be as simple as generating a WAR and deploying to Tomcat.
 
 How it works
 ------------
