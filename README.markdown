@@ -20,7 +20,7 @@ This project is designed to run on Apache Tomcat 7.  It uses the following:
 * [Apache Commons IO 2.4](https://commons.apache.org/io/)
 * jQuery - This is included in the WebContent folder
 
-Once you have these libraries, it should be as simple as generating a WAR and deploying to Tomcat.
+Once you have these libraries please make sure you add them to the WebContent/WEB-INF/lib folder in the project. After adding the java libraries, it should be as simple as generating a WAR and deploying to Tomcat.
 
 How it works
 ------------
