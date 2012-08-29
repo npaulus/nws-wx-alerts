@@ -9,5 +9,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/npaulus/Downloads/commons-io-2.4/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/Users/npaulus/Downloads/jaxb-ri-2.2.6/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="/Users/npaulus/Downloads/jersey-bundle-1.13.jar"/>
+	<classpathentry kind="lib" path="/Users/npaulus/Downloads/jsr311-api-1.1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

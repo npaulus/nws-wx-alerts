@@ -4,6 +4,7 @@ package com.natepaulus.nws.weather;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -19,6 +20,7 @@ import org.apache.commons.io.input.BOMInputStream;
 import com.natepaulus.nws.weather.atom.Entry;
 import com.natepaulus.nws.weather.atom.Feed;
 import com.natepaulus.nws.weather.cap.Alert;
+import com.natepaulus.nws.weather.cap.Alert.Info.Area;
 import com.natepaulus.nws.weather.fcc.Response;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -44,7 +46,13 @@ public class Weather {
 		Response fccResponse = r.queryParams(queryParams).get(Response.class);
 		
 		String state = fccResponse.getState().getCode();
-		String fips = state +"C" + fccResponse.getCounty().getFIPS().toString().substring(2);
+		String fipsCountyCode = fccResponse.getCounty().getFIPS().toString().substring(2);
+		if(fipsCountyCode.length() == 2){
+			fipsCountyCode = "0" + fipsCountyCode;
+		} else if(fipsCountyCode.length() == 1){
+			fipsCountyCode = "00" + fipsCountyCode;
+		}
+		String fips = state +"C" + fipsCountyCode;
 		
 		return fips;
 
@@ -64,7 +72,9 @@ public class Weather {
 			in = url.openStream();
 			bomIn = new BOMInputStream(in);
 		} catch (IOException e){
-			return "<p>Unable to get the weather data.  Please refresh the page</p>";
+			return "<alerts title=\"Error\">" +
+					"<alert><headline>Unable to get the weather data.  Please refresh the page</headline></alert>" +
+					"</alerts>";
 		}
 		
 		Feed feed = null;
@@ -76,13 +86,14 @@ public class Weather {
 			
 			e1.printStackTrace();
 		}
-		text +="<h1>"+ feed.getTitle() + "</h1>\n";
+		
+		text +="<alerts title=\""+feed.getTitle() + "\">\n";
 		
 		List<Entry> entry = feed.getEntry();
 		
 		for(Entry e : entry){
 			if(e.getTitle().equals("There are no active watches, warnings or advisories")){
-				text += "<p>No active watches, warnings or advisories.</p>";
+				text += "<alert><description>No active watches, warnings or advisories.</description></alert>\n";
 			}
 			else {
 				Alert alert = null;
@@ -96,26 +107,52 @@ public class Weather {
 	        		Unmarshaller capAlertData = capAlert.createUnmarshaller();
 					alert = (Alert) capAlertData.unmarshal(capIn);
 				} catch (JAXBException | IOException e1) {
-					return "<p>There appears to be an alert, but the data wasn't all available.  Please refresh the page to try again.</p>";
+					return "<alerts title=\"Error\">" +
+							"<alert>" +
+							"<headline>Error</headline>" +
+							"<description>There appears to be an alert, but the data wasn't all available.  Please refresh the page to try again.</description>" +
+							"</alert>" +
+							"</alerts>";
 				}        		
 				
         		List<Alert.Info> details = alert.getInfo();
         		for(Alert.Info a: details){
         			
-        			String desc = a.getDescription().replaceAll("\n\\*", "<br /><br >\\*")
-        					.replaceAll("\n\\.", "<br /><br >\\.")
-        					.replaceAll("\\.\\.\\.\nTHE", "\\.\\.\\.<br /><br >THE")
-        					.replaceAll("\\.\\.\\.\nA", "\\.\\.\\.<br /><br >A");
+        			String desc = a.getDescription().replaceAll("\n\\*", "&lt;br /&gt;&lt;br /&gt;\\*")
+        					.replaceAll("\n\\.", "&lt;br /&gt;&lt;br /&gt;\\.")
+        					.replaceAll("\\.\\.\\.\nTHE", "\\.\\.\\.&lt;br /&gt;&lt;br /&gt;THE")
+        					.replaceAll("\\.\\.\\.\nA", "\\.\\.\\.&lt;br /&gt;&lt;br /&gt;A");
         			
-        			text += "<h3>" + a.getHeadline() + "<h3>\n";
-    				text += "<p>" + desc + "</p> \n";
-    				text += "<p>" + a.getInstruction() + "</p><br /> \n";	
+        			text += "<alert>\n";
+        			text += "<headline>" + a.getHeadline() + "</headline>";
+    				text += "\t<description>" + desc + "</description>\n";
+    				text += "\t<instructions>" + a.getInstruction() + "</instructions> \n";
+    				text += "\t<coordinates>" + getCoordinates(a) + "</coordinates>\n";
+    				text += "</alert>\n";
         		}
 			}
 		}	
-		
+		text += "</alerts>";
 		return text;
 		
+	}
+	
+	private static String getCoordinates(Alert.Info a) {
+		String result = "";
+		
+		List<Area> areaList = a.getArea();
+		Iterator<Area> i = areaList.iterator();
+		
+		if(i.hasNext()){
+			Area poly = i.next();
+			List<String> polyCoords = poly.getPolygon();
+			Iterator j = polyCoords.iterator();
+			
+			while(j.hasNext()){
+				result += j.next();
+			}
+		}
+		return result;
 	}
 
 }

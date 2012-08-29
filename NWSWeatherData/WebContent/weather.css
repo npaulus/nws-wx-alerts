@@ -9,6 +9,13 @@ body {
 	background: black;
 }
 
+#map {
+	width: 960px;
+	height: 400px;
+	background: black;
+}
+
+
 h1 {
 	font-size: 22px;
 	color: #00FF00;

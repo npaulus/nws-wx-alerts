@@ -45,7 +45,7 @@ public class WeatherData extends HttpServlet {
 		lon = lon.substring(0, 6);
 		
 		String result = Weather.getData(lat, lon);
-		URL urlFeed = new URL("http://alerts.weather.gov/cap/wwaatmget.php?x="+result+"&y=1");
+		URL urlFeed = new URL("http://alerts.weather.gov/cap/wwaatmget.php?x="+result+"&y=0");
 	
 		result = Weather.getAtomFeed(urlFeed); 
 		
