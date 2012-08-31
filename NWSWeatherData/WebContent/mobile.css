@@ -9,6 +9,12 @@ body {
 	background: black;
 }
 
+#map {
+	width: 320px;
+	height: 320px;
+	background: black;
+}
+
 h1 {
 	font-size: 20px;
 	color: #00FF00;

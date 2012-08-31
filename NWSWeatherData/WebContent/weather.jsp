@@ -6,24 +6,69 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Weather Alerts</title>
 <script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=INSERTAPIKEY&sensor=true">
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBZz8ZgB5YWwcy2v4SIoJJnW_I5kipDZE0&sensor=true">
     </script>
 <script src="jquery-1.7.2.min.js"></script>
 <script>
 $(document).ready(function(){
+	
+	
 	
 	if(navigator && navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(success, error, {timeout:50000});
 	}
 });
 
+function initializeMap(lat, lon, polyInfoPaths) {
+	
+	var myPosition = new google.maps.LatLng(lat, lon);
+	
+	var mapOptions = {
+			 center : myPosition,
+			 zoom : 10,
+	         mapTypeId: google.maps.MapTypeId.ROADMAP
+	        };
+	
+	var polygonOpts = [];
+	
+	var map = new google.maps.Map(document.getElementById("map"),
+	            mapOptions);	
+	
+    var marker = new google.maps.Marker({
+		position: myPosition,
+	    map: map,
+	    title:"Your Location"
+	 });
+	
+	for(var i = 0; i < polyInfoPaths.length; i++){ 
+		if(polyInfoPaths[i].getLength() > 1){
+			alert("array length" + polyInfoPaths[i].getLength());
+			polygonOpts[i] = new google.maps.Polygon({
+				paths : polyInfoPaths[i],
+				fillColor : "FF0000",
+				fillOpacity : 0.3,			
+				strokeColor : "FF0000",
+				strokeOpacity : 0.3,
+				strokeWeight : 2	
+			});
+			polygonOpts[i].setMap(map);
+		}
+	}
+    
+    //for(var i = 0; i < polygonOpts.length; i++){
+    	//polygonOpts[i].setMap(map);
+    	
+   // }
+	
+}
+
 function success(location) {
 	
-	var longitude = location.coords.longitude;
-	var latitude = location.coords.latitude;
-	//var latitude = 30.694444;
-	//var longitude = -88.043056;
-	
+	//var longitude = location.coords.longitude;
+	//var latitude = location.coords.latitude;
+	var latitude = 34.784167;
+	var longitude =  -91.900833;
+			
 	$.post("/NWSWeatherData/WeatherData",{
 		lon : longitude,
 		lat : latitude } ,
@@ -33,24 +78,30 @@ function success(location) {
 				results = "<h1>"+$(this).attr("title")+"</h1>";
 			});
 			
+			var i = 0;
+			var polyInfoPaths = [];
+			
 			$(data).find("alert").each(function(){
 				results += "<h3>"+$(this).find("headline").text()+"</h3>";
 				results += "<p>"+$(this).find("description").text()+"</p>";
 				results += "<p>"+$(this).find("instructions").text()+"</p>";
+				var coords = $(this).find("coordinates").text().split(" ");
+				
+				if(coords.length > 1){
+					polyInfoPaths[i] = new google.maps.MVCArray();
+					for(var j = 0; j < coords.length; j++){						
+						var points = coords[j].split(",");
+						polyInfoPaths[i].push(new google.maps.LatLng(points[0], points[1]));
+					}
+					i++;				
+				}
 			});
+			
+			initializeMap(latitude, longitude, polyInfoPaths);
 			
 			$("#weatherData").html(results);				
 			$("#weatherData").show();
 		}, "xml");
-	
-	var mapOptions = {
-	          center: new google.maps.LatLng(latitude, longitude),
-	          zoom: 8,
-	          mapTypeId: google.maps.MapTypeId.ROADMAP
-	        };
-	        var map = new google.maps.Map(document.getElementById("map"),
-	            mapOptions);
-
 	
 }
 
