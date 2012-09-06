@@ -11,12 +11,12 @@
 <script src="jquery-1.7.2.min.js"></script>
 <script>
 $(document).ready(function(){
-	
-	
-	
+		
 	if(navigator && navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(success, error, {timeout:50000});
 	}
+	
+	
 });
 
 function initializeMap(lat, lon, polyInfoPaths) {
@@ -42,7 +42,6 @@ function initializeMap(lat, lon, polyInfoPaths) {
 	
 	for(var i = 0; i < polyInfoPaths.length; i++){ 
 		if(polyInfoPaths[i].getLength() > 1){
-			alert("array length" + polyInfoPaths[i].getLength());
 			polygonOpts[i] = new google.maps.Polygon({
 				paths : polyInfoPaths[i],
 				fillColor : "FF0000",
@@ -53,21 +52,15 @@ function initializeMap(lat, lon, polyInfoPaths) {
 			});
 			polygonOpts[i].setMap(map);
 		}
-	}
-    
-    //for(var i = 0; i < polygonOpts.length; i++){
-    	//polygonOpts[i].setMap(map);
+	}	
     	
-   // }
-	
 }
 
 function success(location) {
 	
-	//var longitude = location.coords.longitude;
-	//var latitude = location.coords.latitude;
-	var latitude = 34.784167;
-	var longitude =  -91.900833;
+	var longitude = location.coords.longitude;
+	var latitude = location.coords.latitude;
+	
 			
 	$.post("/NWSWeatherData/WeatherData",{
 		lon : longitude,
