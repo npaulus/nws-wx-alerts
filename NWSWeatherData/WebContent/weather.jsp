@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Weather Alerts</title>
 <script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBZz8ZgB5YWwcy2v4SIoJJnW_I5kipDZE0&sensor=true">
+      src="http://maps.googleapis.com/maps/api/js?key=<YOURAPIKEYHERE>&sensor=true">
     </script>
 <script src="jquery-1.7.2.min.js"></script>
 <script>

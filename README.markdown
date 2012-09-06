@@ -1,7 +1,9 @@
 NWS Weather Alerts
 ==================
 
-This is a simple java web application that will check for weather alerts by the US National Weather Service based on a user's location.  The goal is to provide a way to easily pull weather alert information while traveling using a mobile device such as an iPhone.  Using the GeoLocation API, the user's GPS coordinates are used to determine the appropriate URL to retrieve weather alerts for the specific location. Additionally, the site uses AJAX to get the weather data by sending the user's location once it has been determined. So the user just needs to access the URL and the website takes care of the rest. 
+This is a simple java web application that will check for weather alerts by the US National Weather Service based on a user's location.  Recently, I added the Google Maps V3 API to plot the user's location and draw the polygons for alerts impacting them. Please see the Roadmap for more details on future enhancements.
+
+The goal is to provide a way to easily pull weather alert information while traveling using a mobile device such as an iPhone.  Using the GeoLocation API, the user's GPS coordinates are used to determine the appropriate URL to retrieve weather alerts for the specific location. AJAX is used to send/receive information to make the process easy for the user. 
 
 I started this project to learn a little about using java for RESTful web services. Also, I wanted something that wasn't tied to a specific app for determining if I am in an area with a severe weather alert. If anyone has any enhancement ideas or sees any bugs please let me know!
 
@@ -19,15 +21,24 @@ This project is designed to run on Apache Tomcat 7.  It uses the following:
 * [JAXB](http://jaxb.java.net/)
 * [Apache Commons IO 2.4](https://commons.apache.org/io/)
 * jQuery - This is included in the WebContent folder
+* [Google Maps API V3](https://developers.google.com/maps/documentation/javascript/) - API Key is required to use this
 
-Once you have these libraries please make sure you add them to the WebContent/WEB-INF/lib folder in the project. After adding the java libraries, it should be as simple as generating a WAR and deploying to Tomcat.
+Once you have these libraries please make sure you add them to the WebContent/WEB-INF/lib folder in the project.  As an alternative, you can add them to the lib folder in the Apache Tomcat folder. After adding the java libraries, it should be as simple as generating a WAR and deploying to Tomcat.
 
 How it works
 ------------
 
-The general idea is when a user visits the page, some JavaScript tries to get the users location and then sends it to the servlet.  The servlet sends the GPS coordinates to the FCC's [web service](http://www.fcc.gov/developers/census-block-conversions-api) for determining a county in the United States.  The FIPS code for the county is used from the FCC response to generate the appropriately formatted code for the NWS weather alert feeds.  Then the weather alert feed is retrieved to check for any alerts.  If there are alerts, the details are returned to the user on the webpage.  
+The general idea is when a user visits the page, some JavaScript tries to get the users location and then sends it to the servlet.  The servlet sends the GPS coordinates to the FCC's [web service](http://www.fcc.gov/developers/census-block-conversions-api) for determining a county in the United States.  The FIPS code for the county is used from the FCC response to generate the appropriately formatted code for the NWS weather alert [feeds](http://alerts.weather.gov).  Then the weather alert feed is retrieved to check for any alerts.  If there are alerts, the details are returned to the user on the webpage.  The user's location is plotted on Google Maps. If any polygon coordinates are included with the weather alerts those are drawn on the map as well.  This makes it easy for the user to see if their location is impacted.
 
 Roadmap
 -------
 
-* Add zip code box to search for alerts based on zip code.
+* Make the polygons color coded based on type of alert:
+    * Red = Tornado Warning
+	* Yellow = Severe Thunderstorm Warning
+	* Green = Flash Flood Warning
+	* Grey = All others
+* Add Radar overlay to google maps 
+* Replace "Retrieving weather info...." message with spinner to indicate page is loading
+* Restructure the javascript so the map loads with user's location while waiting for the weather alert data to come back from server
+* Add color coded "boxing" around alerts to make it easier to determine which alert goes with which polygon
