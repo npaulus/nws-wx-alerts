@@ -33,7 +33,7 @@ The general idea is when a user visits the page, some JavaScript tries to get th
 Roadmap
 -------
 
-* Make the polygons color coded based on type of alert:
+* Make the polygons color coded based on type of alert: (Added 2/6/2013)
     * Red = Tornado Warning
 	* Yellow = Severe Thunderstorm Warning
 	* Green = Flash Flood Warning
