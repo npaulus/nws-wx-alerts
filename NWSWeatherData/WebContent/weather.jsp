@@ -28,7 +28,7 @@ function initializeMap(lat, lon, polygonOptions) {
 		 return "https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/" + zoom + "/" + tile.x + "/" + tile.y +".png?"+ (new Date()).getTime();
 		 },
 		 tileSize: new google.maps.Size(256, 256),
-		 opacity:0.60,
+		 opacity:0.30,
 		 name : 'Radar',
 		 isPng: true
 		 }); 
@@ -39,7 +39,7 @@ function initializeMap(lat, lon, polygonOptions) {
 	
 	var mapOptions = {
 			 center : myPosition,
-			 zoom : 13,
+			 zoom : 10,
 	         mapTypeId: google.maps.MapTypeId.ROADMAP	         
 	        };
 	
@@ -79,8 +79,8 @@ function success(location) {
 		
 	var longitude = location.coords.longitude;
 	var latitude = location.coords.latitude;
-	//var longitude = -87.5659;
-	//var latitude = 37.9727;
+	//var longitude = -98.5491;
+	//var latitude = 28.4594;
 			
 	$.post("/alerts/WeatherData",{
 		lon : longitude,
@@ -101,12 +101,14 @@ function success(location) {
 				var coords = $(this).find("coordinates").text().split(" ");
 				var phenomena = $(this).find("phenomena").text();
 				
-				var color = "FF0000"; //this is red for tornado as default color
+				var color = "#808080"; //the default color is gray
 				
-				if(phenomena == "FF"){
+				if(phenomena == "FF"){ //green for flash flood
 					color = "#33FF33";
-				} else if(phenomena == "SV"){
-					color = "#EEEE00";
+				} else if(phenomena == "SV"){ //yellow for severe thunderstorm
+					color = "#EEEE00"; 
+				} else if(phenomena == "TO"){ //red for tornado
+					color = "FF0000";
 				}
 				
 				if(coords.length > 1){
@@ -118,9 +120,9 @@ function success(location) {
 					polygonOptions[i] = new google.maps.Polygon({
 						paths : polyInfoPaths[i],
 						fillColor : color,
-						fillOpacity : 0.3,			
+						fillOpacity : 0.35,			
 						strokeColor : color,
-						strokeOpacity : 0.3,
+						strokeOpacity : 0.35,
 						strokeWeight : 2	
 					});
 					i++;				

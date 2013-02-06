@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="NWSWeatherData">
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="alerts">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="NWSWeatherData"/>
-        <property name="java-output-path" value="/NWSWeatherData/build/classes"/>
+        <property name="java-output-path" value="/alerts/build/classes"/>
+        <property name="context-root" value="alerts"/>
     </wb-module>
 </project-modules>
