@@ -7,7 +7,7 @@ The goal is to provide a way to easily pull weather alert information while trav
 
 I started this project to learn a little about using java for RESTful web services. Also, I wanted something that wasn't tied to a specific app for determining if I am in an area with a severe weather alert. If anyone has any enhancement ideas or sees any bugs please let me know!
 
-You can see this code in action [here.](http://www.natepaulus.com/NWSWeatherData)
+You can see this code in action [here.](https://www.vtmnts.com/alerts)
 
 Usage
 -----
@@ -38,7 +38,7 @@ Roadmap
 	* Yellow = Severe Thunderstorm Warning
 	* Green = Flash Flood Warning
 	* Grey = All others
-* Add Radar overlay to google maps 
+* Add Radar overlay to google maps (Added 2/5/2013)
 * Replace "Retrieving weather info...." message with spinner to indicate page is loading
 * Restructure the javascript so the map loads with user's location while waiting for the weather alert data to come back from server
 * Add color coded "boxing" around alerts to make it easier to determine which alert goes with which polygon

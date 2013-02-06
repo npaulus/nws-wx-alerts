@@ -2,7 +2,6 @@ package com.natepaulus.nws.weather;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.servlet.ServletException;

@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
-
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.JAXBContext;
@@ -16,11 +15,11 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.input.BOMInputStream;
 
-
 import com.natepaulus.nws.weather.atom.Entry;
 import com.natepaulus.nws.weather.atom.Feed;
 import com.natepaulus.nws.weather.cap.Alert;
 import com.natepaulus.nws.weather.cap.Alert.Info.Area;
+import com.natepaulus.nws.weather.cap.Alert.Info.Parameter;
 import com.natepaulus.nws.weather.fcc.Response;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -39,7 +38,7 @@ public class Weather {
 		Client c = Client.create();
 		c.setFollowRedirects(true);
 		WebResource r = c.resource("http://data.fcc.gov/api/block/find");
-		MultivaluedMap queryParams = new MultivaluedMapImpl();
+		MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 		   queryParams.add("latitude", lat);
 		   queryParams.add("longitude", lon);		   	   
 		   r.accept(MediaType.APPLICATION_XML);
@@ -128,6 +127,7 @@ public class Weather {
     				text += "\t<description>" + desc + "</description>\n";
     				text += "\t<instructions>" + a.getInstruction() + "</instructions> \n";
     				text += "\t<coordinates>" + getCoordinates(a) + "</coordinates>\n";
+    				text += "\t<phenomena>" + getVTECPhenomena(a) + "</phenomena>";    						
     				text += "</alert>\n";
         		}
 			}
@@ -146,12 +146,36 @@ public class Weather {
 		if(i.hasNext()){
 			Area poly = i.next();
 			List<String> polyCoords = poly.getPolygon();
-			Iterator j = polyCoords.iterator();
+			Iterator<String> j = polyCoords.iterator();
 			
 			while(j.hasNext()){
 				result += j.next();
 			}
 		}
+		return result;
+	}
+	
+	private static String getVTECPhenomena(Alert.Info a){
+		String result = "";
+		
+		List<Parameter> parameters = a.getParameter();
+		Iterator<Parameter> iteratorParameters = parameters.iterator();
+		while(iteratorParameters.hasNext()){
+			Parameter p = iteratorParameters.next();
+			if(p.getValueName().equals("VTEC")){
+				String vtecValues = p.getValue();
+				String vtecs[] = vtecValues.split("/");
+				for (String v : vtecs){
+					String[] VTEC = v.split("\\.");
+					if(VTEC[0].length() == 1){
+						if(VTEC[4].equals("W")){
+							return result = VTEC[3];
+						}
+					}
+				}
+			}
+		}
+		
 		return result;
 	}
 
