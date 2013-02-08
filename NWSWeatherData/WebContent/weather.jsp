@@ -146,6 +146,9 @@ function error(err){
 </script>
 <link media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" rel="stylesheet"   />
 <link rel="stylesheet" type="text/css" href="weather.css" media="only screen and (min-device-width: 481px)" />
+<link rel="apple-touch-icon" href="alert.png" />
+<link rel="shortcut icon" href="alert.ico" />
+<link rel="icon" href="alert.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
 </head>
 <body>
