@@ -164,17 +164,19 @@ public class Weather {
 			Parameter p = iteratorParameters.next();
 			if(p.getValueName().equals("VTEC")){
 				String vtecValues = p.getValue();
+				
 				String vtecs[] = vtecValues.split("/");
+				
 				for (String v : vtecs){
-					String[] VTEC = v.split("\\.");
-					if(VTEC[0].length() == 1){
+					String[] VTEC = v.split("\\.");								
+					if(VTEC.length > 1){
 						if(VTEC[4].equals("W")){
 							return result = VTEC[3];
 						}
 					}
 				}
 			}
-		}
+		} 
 		
 		return result;
 	}
