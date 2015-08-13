@@ -7,7 +7,7 @@ The goal is to provide a way to easily pull weather alert information while trav
 
 I started this project to learn a little about using java for RESTful web services. Also, I wanted something that wasn't tied to a specific app for determining if I am in an area with a severe weather alert. If anyone has any enhancement ideas or sees any bugs please let me know!
 
-You can see this code in action [here.](https://www.vtmnts.com/alerts)
+You can see this code in action [here.](http://www.vtmnts.com/alerts)
 
 Usage
 -----
