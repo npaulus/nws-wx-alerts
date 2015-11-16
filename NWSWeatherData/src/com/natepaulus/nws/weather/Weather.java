@@ -24,9 +24,12 @@ import com.natepaulus.nws.weather.fcc.Response;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Weather {
 
+	private final static Logger logger = LoggerFactory.getLogger(Weather.class);
 	
 	/**
 	 * Returns the FIPS code for the county that GPS coordinates reside in formatted for the NWS system.
@@ -45,6 +48,8 @@ public class Weather {
 		Response fccResponse = r.queryParams(queryParams).get(Response.class);
 		
 		String state = fccResponse.getState().getCode();
+		logger.error("FCC Response: " + fccResponse.getCounty());
+		logger.error("FCC Response: " + fccResponse.getCounty().getFIPS());
 		String fipsCountyCode = fccResponse.getCounty().getFIPS().toString().substring(2);
 		if(fipsCountyCode.length() == 2){
 			fipsCountyCode = "0" + fipsCountyCode;
@@ -62,18 +67,21 @@ public class Weather {
 	 * @param url - NWS URL that is used to retrieve alert information for specific county
 	 * @return
 	 */
-	public static String getAtomFeed(URL url) {
+	public static Alerts getAtomFeed(URL url) {
 			
 		String text = "";
+		Alerts alerts = new Alerts();
 		InputStream in = null;
 		BOMInputStream bomIn = null;
 		try{		
 			in = url.openStream();
 			bomIn = new BOMInputStream(in);
 		} catch (IOException e){
-			return "<alerts title=\"Error\">" +
-					"<alert><headline>Unable to get the weather data.  Please refresh the page</headline></alert>" +
-					"</alerts>";
+			alerts.setTitle("Error");
+			Alerts.Alert alert = new Alerts.Alert();
+			alert.setHeadline("Unable to get the weather data.  Please refresh the page");
+			alerts.getAlert().add(alert);
+			return alerts;
 		}
 		
 		Feed feed = null;
@@ -85,17 +93,22 @@ public class Weather {
 			
 			e1.printStackTrace();
 		}
-		
-		text +="<alerts title=\""+feed.getTitle() + "\">\n";
-		
+
+		alerts.setTitle(feed.getTitle());
+
 		List<Entry> entry = feed.getEntry();
 		
 		for(Entry e : entry){
+
+
+
 			if(e.getTitle().equals("There are no active watches, warnings or advisories")){
-				text += "<alert><description>No active watches, warnings or advisories.</description></alert>\n";
+				Alerts.Alert alert = new Alerts.Alert();
+				alert.setDescription(e.getTitle());
+				alerts.getAlert().add(alert);
 			}
 			else {
-				Alert alert = null;
+				Alert alertCap = null;
 				URL capURL = null;
 				InputStream capIn = null;
 				
@@ -104,36 +117,36 @@ public class Weather {
 					capIn = capURL.openStream();
 					JAXBContext capAlert = JAXBContext.newInstance(Alert.class);
 	        		Unmarshaller capAlertData = capAlert.createUnmarshaller();
-					alert = (Alert) capAlertData.unmarshal(capIn);
+					alertCap = (Alert) capAlertData.unmarshal(capIn);
 				} catch (JAXBException | IOException e1) {
-					return "<alerts title=\"Error\">" +
-							"<alert>" +
-							"<headline>Error</headline>" +
-							"<description>There appears to be an alert, but the data wasn't all available.  Please refresh the page to try again.</description>" +
-							"</alert>" +
-							"</alerts>";
+					Alerts.Alert alert = new Alerts.Alert();
+					alerts.setTitle("Error");
+					alert.setDescription("There appears to be an alert, but the data wasn't all available.  Please refresh the page to try again.");
+					alert.setHeadline("Error");
+					alerts.getAlert().add(alert);
+					return alerts;
 				}        		
 				
-        		List<Alert.Info> details = alert.getInfo();
+        		List<Alert.Info> details = alertCap.getInfo();
         		for(Alert.Info a: details){
-        			
+        			Alerts.Alert alert = new Alerts.Alert();
+
         			String desc = a.getDescription().replaceAll("\n\\*", "&lt;br /&gt;&lt;br /&gt;\\*")
         					.replaceAll("\n\\.", "&lt;br /&gt;&lt;br /&gt;\\.")
         					.replaceAll("\\.\\.\\.\nTHE", "\\.\\.\\.&lt;br /&gt;&lt;br /&gt;THE")
         					.replaceAll("\\.\\.\\.\nA", "\\.\\.\\.&lt;br /&gt;&lt;br /&gt;A");
-        			
-        			text += "<alert>\n";
-        			text += "<headline>" + a.getHeadline() + "</headline>";
-    				text += "\t<description>" + desc + "</description>\n";
-    				text += "\t<instructions>" + a.getInstruction() + "</instructions> \n";
-    				text += "\t<coordinates>" + getCoordinates(a) + "</coordinates>\n";
-    				text += "\t<phenomena>" + getVTECPhenomena(a) + "</phenomena>";    						
-    				text += "</alert>\n";
+
+					alert.setHeadline(a.getHeadline());
+					alert.setDescription(desc);
+					alert.setInstructions(a.getInstruction());
+					alert.setCoordinates(getCoordinates(a));
+					alert.setPhenomena(getVTECPhenomena(a));
+					alerts.getAlert().add(alert);
         		}
 			}
 		}	
-		text += "</alerts>";
-		return text;
+
+		return alerts;
 		
 	}
 	
