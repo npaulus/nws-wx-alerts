@@ -46,10 +46,10 @@ public class Weather {
 		   queryParams.add("longitude", lon);		   	   
 		   r.accept(MediaType.APPLICATION_XML);
 		Response fccResponse = r.queryParams(queryParams).get(Response.class);
-		
+		System.out.println("THE RESPONSE: " + fccResponse.toString());
 		String state = fccResponse.getState().getCode();
-		logger.error("FCC Response: " + fccResponse.getCounty());
-		logger.error("FCC Response: " + fccResponse.getCounty().getFIPS());
+		logger.error("FCC County: " + fccResponse.getCounty().toString());
+		logger.error("FCC FIPS: " + fccResponse.getCounty().getFIPS().toString());
 		String fipsCountyCode = fccResponse.getCounty().getFIPS().toString().substring(2);
 		if(fipsCountyCode.length() == 2){
 			fipsCountyCode = "0" + fipsCountyCode;
