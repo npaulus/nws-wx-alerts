@@ -7,15 +7,15 @@ The goal is to provide a way to easily pull weather alert information while trav
 
 I started this project to learn a little about using java for RESTful web services. Also, I wanted something that wasn't tied to a specific app for determining if I am in an area with a severe weather alert. If anyone has any enhancement ideas or sees any bugs please let me know!
 
-You can see this code in action [here.](http://www.vtmnts.com/alerts)
+You can see this code in action [here.](http://alerts.vtmnts.com)
 
 Usage
 -----
 
-This project is designed to run on Apache Tomcat 7.  It uses the following:
+This project is designed to run on Apache Tomcat 8.  It uses the following:
 
-* Apache Tomcat 7
-* Java 7
+* Apache Tomcat 8
+* Java 8
 * [Jersey 1.13](http://jersey.java.net/) 
 * [JAX-RS 1.1](http://jax-rs-spec.java.net/)
 * [JAXB](http://jaxb.java.net/)
